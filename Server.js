@@ -16,6 +16,16 @@ const requireAuth = require("./middleware/requireAuth");
 
 app.use(express.json({ limit: "50mb" }));
 
+app.use((req, res, next) => {
+  res.setHeader("X-Frame-Options", "DENY");
+  next();
+});
+
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
+  next();
+});
+
 connectDb();
 
 app.use(cors(corsOptions));
